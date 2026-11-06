@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SellerAI – Trợ lý bán hàng TikTok Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--card:#fff;--ink:#14213d;--mute:#5b6577;--line:#d5dbe5;--acc:#14213d;--accfg:#fff;--pos:#0a8f5b;--neg:#d1362f;--warn:#b7791f;--mk:#ffe29a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1522;--card:#17202f;--ink:#eaf0fa;--mute:#98a3b8;--line:#2c374b;--acc:#eaf0fa;--accfg:#0e1522;--pos:#3fd392;--neg:#ff6b61;--warn:#f2b85a;--mk:#6b5a1d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1522;--card:#17202f;--ink:#eaf0fa;--mute:#98a3b8;--line:#2c374b;--acc:#eaf0fa;--accfg:#0e1522;--pos:#3fd392;--neg:#ff6b61;--warn:#f2b85a;--mk:#6b5a1d;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+h1{font-size:22px;font-weight:800;margin:0;letter-spacing:-.02em}
+.sub{color:var(--mute);font-size:13px;margin:2px 0 0}
+.lang{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.lang button{border:0;background:transparent;color:var(--mute);padding:6px 10px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer}
+.lang button.on{background:var(--acc);color:var(--accfg)}
+nav{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto}
+nav button{flex:1;white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 12px;border-radius:10px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer}
+nav button.on{background:var(--acc);color:var(--accfg);border-color:var(--acc);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--warn);outline-offset:2px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:12.5px;color:var(--mute);margin-bottom:3px}
+input,select,textarea{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:9px 10px;font-size:16px;font-weight:500;font-family:inherit}
+textarea{min-height:110px;resize:vertical;line-height:1.5}
+.full{grid-column:1/-1}
+.note{font-size:12px;color:var(--mute);margin:8px 0 0}
+.bill{font-variant-numeric:tabular-nums}
+.bill .r{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line)}
+.bill .r span:first-child{color:var(--mute)}
+.bill .t{border-bottom:0;border-top:2px solid var(--ink);margin-top:4px;padding-top:10px;font-weight:800;font-size:19px}
+.bill .t span:first-child{color:var(--ink)}
+.pos{color:var(--pos)}.neg{color:var(--neg)}
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12.5px;font-weight:600;margin-top:8px}
+.b-ok{background:color-mix(in srgb,var(--pos) 18%,transparent);color:var(--pos)}
+.b-mid{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.b-bad{background:color-mix(in srgb,var(--neg) 18%,transparent);color:var(--neg)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.kpi{border:1px solid var(--line);border-radius:10px;padding:10px}
+.kpi b{display:block;font-size:17px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--mute)}
+.btn{width:100%;border:0;background:var(--acc);color:var(--accfg);padding:12px;border-radius:10px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:12px}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.out h3{font-size:14px;margin:0 0 6px;display:flex;justify-content:space-between;align-items:center}
+.out pre{white-space:pre-wrap;word-break:break-word;font-size:14.5px;line-height:1.55;font-family:inherit;margin:0;background:var(--bg);border-radius:9px;padding:10px}
+.cp{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:7px;padding:4px 10px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer}
+.promo{background:color-mix(in srgb,var(--warn) 14%,transparent);border-radius:9px;padding:9px 11px;font-size:13.5px;margin-bottom:12px}
+mark{background:var(--mk);color:inherit;border-radius:3px;padding:0 2px}
+.hit{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.hit s{color:var(--neg)}.hit b{color:var(--pos);font-weight:600;text-align:right}
+@media(prefers-reduced-motion:no-preference){.kpi b,.bill .t{transition:color .2s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div><h1>SellerAI</h1><p class="sub" data-i="tag"></p></div>
+ <div class="lang"><button id="lvi" class="on">VI</button><button id="lzh">中文</button></div>
+</header>
+<nav>
+ <button data-t="t1" class="on" data-i="n1"></button>
+ <button data-t="t2" data-i="n2"></button>
+ <button data-t="t3" data-i="n3"></button>
+</nav>
+
+<section id="t1" class="on">
+ <div class="card">
+  <div class="grid">
+   <div><label data-i="price"></label><input id="price" type="number" inputmode="decimal" value="199000"></div>
+   <div><label data-i="cost"></label><input id="cost" type="number" inputmode="decimal" value="70000"></div>
+   <div><label data-i="ship"></label><input id="ship" type="number" inputmode="decimal" value="15000"></div>
+   <div><label data-i="pack"></label><input id="pack" type="number" inputmode="decimal" value="3000"></div>
+   <div><label data-i="ad"></label><input id="ad" type="number" inputmode="decimal" value="25000"></div>
+   <div><label data-i="fee"></label><input id="fee" type="number" inputmode="decimal" value="12"></div>
+   <div><label data-i="ret"></label><input id="ret" type="number" inputmode="decimal" value="8"></div>
+   <div><label data-i="target"></label><input id="target" type="number" inputmode="decimal" value="15"></div>
+  </div>
+  <p class="note" data-i="feenote"></p>
+ </div>
+ <div class="card bill" aria-live="polite">
+  <div class="r"><span data-i="b_price"></span><span id="o_price"></span></div>
+  <div class="r"><span data-i="b_fee"></span><span id="o_fee"></span></div>
+  <div class="r"><span data-i="b_cost"></span><span id="o_cost"></span></div>
+  <div class="r"><span data-i="b_ship"></span><span id="o_ship"></span></div>
+  <div class="r"><span data-i="b_pack"></span><span id="o_pack"></span></div>
+  <div class="r"><span data-i="b_ad"></span><span id="o_ad"></span></div>
+  <div class="r"><span data-i="b_ret"></span><span id="o_ret"></span></div>
+  <div class="r t"><span data-i="b_profit"></span><span id="o_profit"></span></div>
+  <span class="badge" id="verdict"></span>
+  <div class="kpis">
+   <div class="kpi"><b id="k_margin"></b><span data-i="k_margin"></span></div>
+   <div class="kpi"><b id="k_be"></b><span data-i="k_be"></span></div>
+   <div class="kpi"><b id="k_disc"></b><span data-i="k_disc"></span></div>
+   <div class="kpi"><b id="k_ad"></b><span data-i="k_ad"></span></div>
+  </div>
+ </div>
+</section>
+
+<section id="t2">
+ <div class="promo" id="promo"></div>
+ <div class="card">
+  <div class="grid">
+   <div class="full"><label data-i="pname"></label><input id="pname" value="Serum vitamin C"></div>
+   <div><label data-i="ind"></label>
+    <select id="ind"><option value="beauty" data-i="i1"></option><option value="fashion" data-i="i2"></option><option value="home" data-i="i3"></option></select></div>
+   <div><label data-i="aud"></label><input id="aud" value="chị em văn phòng"></div>
+   <div class="full"><label data-i="ben"></label><input id="ben" value="giúp da trông sáng đều màu hơn sau 2 tuần"></div>
+  </div>
+  <button class="btn" id="gen" data-i="gen"></button>
+ </div>
+ <div id="outs"></div>
+</section>
+
+<section id="t3">
+ <div class="card">
+  <label data-i="chkl"></label>
+  <textarea id="chk" placeholder="VD: Serum trị mụn 100% hiệu quả, số 1 thị trường"></textarea>
+  <div class="row2"><button class="btn" id="chkb" data-i="chkb"></button><button class="btn alt" id="fixb" data-i="fixb"></button></div>
+  <p class="note" data-i="disc"></p>
+ </div>
+ <div class="card" id="chkout" hidden></div>
+</section>
+</div>
+
+<script>
+const T={
+vi:{tag:"Tính lãi, viết nội dung, tránh vi phạm – cho seller TikTok Shop",n1:"Lợi nhuận",n2:"Viết nội dung",n3:"Kiểm tra vi phạm",
+price:"Giá bán (₫)",cost:"Giá vốn (₫)",ship:"Vận chuyển shop chịu (₫)",pack:"Đóng gói (₫)",ad:"Quảng cáo / đơn (₫)",fee:"Phí sàn + thanh toán (%)",ret:"Tỷ lệ hoàn hàng (%)",target:"Biên lãi mục tiêu (%)",
+feenote:"Phí sàn khác nhau theo ngành hàng. Hãy nhập đúng theo tài khoản shop của bạn. Chi phí hoàn hàng được ước tính bằng 2 lần phí vận chuyển.",
+b_price:"Giá bán",b_fee:"− Phí sàn + thanh toán",b_cost:"− Giá vốn",b_ship:"− Vận chuyển",b_pack:"− Đóng gói",b_ad:"− Quảng cáo",b_ret:"− Hoàn hàng (ước tính)",b_profit:"Lãi mỗi đơn",
+k_margin:"Biên lãi",k_be:"Giá hòa vốn",k_disc:"Giảm giá tối đa",k_ad:"Quảng cáo tối đa / đơn",
+ok:"Nên bán",mid:"Biên lãi mỏng",bad:"Đang lỗ – đừng chạy thêm",
+pname:"Tên sản phẩm",ind:"Ngành hàng",aud:"Khách hàng mục tiêu",ben:"Lợi ích chính",gen:"Tạo nội dung",regen:"Tạo lại",i1:"Mỹ phẩm",i2:"Thời trang",i3:"Gia dụng",
+chkl:"Dán nội dung cần kiểm tra",chkb:"Kiểm tra",fixb:"Thay tất cả",
+disc:"Đây là danh sách mẫu các từ dễ bị hạn chế. Hãy đối chiếu với chính sách TikTok Shop mới nhất trước khi đăng.",
+copy:"Sao chép",copied:"Đã chép",ai_on:"Đang tạo bằng AI…",ai_ok:"Đã tạo bằng AI (đã tự thay từ rủi ro nếu có)",ai_off:"Chưa kết nối AI, đang dùng mẫu có sẵn",ai_lim:"Hết 3 lượt AI miễn phí hôm nay, đang dùng mẫu",o1:"Caption TikTok",o2:"Lời livestream",o3:"Kịch bản video 15 giây",
+none:"Không thấy từ rủi ro trong danh sách mẫu.",found:"từ rủi ro",fixed:"Đã tự thay từ rủi ro:",
+p_disc:"Ưu đãi gợi ý từ tab Lợi nhuận: giảm",p_gift:"Biên lãi mỏng, không nên giảm giá. Gợi ý: tặng quà nhỏ hoặc freeship thay vì giảm giá."},
+zh:{tag:"算利润、写文案、避违规——给 TikTok Shop 卖家",n1:"利润",n2:"文案",n3:"违规检查",
+price:"售价(₫)",cost:"成本(₫)",ship:"店铺承担运费(₫)",pack:"包装(₫)",ad:"广告费/单(₫)",fee:"平台+支付费(%)",ret:"退货率(%)",target:"目标利润率(%)",
+feenote:"平台费率因类目而异,请按你店铺实际填写。退货成本按运费的2倍估算。",
+b_price:"售价",b_fee:"− 平台+支付费",b_cost:"− 成本",b_ship:"− 运费",b_pack:"− 包装",b_ad:"− 广告",b_ret:"− 退货(估算)",b_profit:"每单利润",
+k_margin:"利润率",k_be:"盈亏平衡价",k_disc:"最大折扣",k_ad:"最大广告费/单",
+ok:"可以卖",mid:"利润偏薄",bad:"正在亏损,先别加投",
+pname:"商品名",ind:"类目",aud:"目标客群(越南语)",ben:"核心卖点(越南语)",gen:"生成文案",regen:"重新生成",i1:"美妆",i2:"服装",i3:"家居",
+chkl:"粘贴要检查的文案",chkb:"检查",fixb:"全部替换",
+disc:"这是示例风险词表。发布前请对照 TikTok Shop 最新规则再确认。",
+copy:"复制",copied:"已复制",ai_on:"AI 生成中…",ai_ok:"已用 AI 生成(风险词已自动替换)",ai_off:"AI 未连接,先用模板",ai_lim:"今天 3 次免费 AI 已用完,先用模板",o1:"TikTok 配文",o2:"直播话术",o3:"15 秒视频脚本",
+none:"示例词表中没有发现风险词。",found:"个风险词",fixed:"已自动替换风险词:",
+p_disc:"来自利润页的建议折扣:",p_gift:"利润偏薄,不建议打折。建议用小赠品或包邮代替折扣。"}
+};
+const RISK=[["chữa khỏi","hỗ trợ cải thiện"],["trị mụn","hỗ trợ chăm sóc da mụn"],["hết mụn","da trông sạch hơn"],["100% hiệu quả","được nhiều khách hài lòng"],["hiệu quả 100%","được nhiều khách hài lòng"],["số 1 thị trường","được nhiều người yêu thích"],["tốt nhất thị trường","được nhiều người ưa chuộng"],["100%","nhiều khách hài lòng"],["số 1","được yêu thích"],["tốt nhất","được ưa chuộng"],["duy nhất","đặc biệt"],["cam kết hiệu quả","nhiều khách phản hồi tốt"],["vĩnh viễn","lâu dài"],["không tác dụng phụ","dịu nhẹ"],["thần dược","sản phẩm được quan tâm"],["giảm cân nhanh","hỗ trợ vóc dáng"],["trắng da","da sáng đều màu"],["đảm bảo hiệu quả","nhiều khách dùng thấy ổn"]];
+const MAP={};RISK.forEach(r=>MAP[r[0]]=r[1]);
+const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+const RE=new RegExp(RISK.map(r=>esc(r[0])).sort((a,b)=>b.length-a.length).join("|"),"gi");
+const $=id=>document.getElementById(id);
+let lang="vi",hookN=0,M=null;
+const f=n=>Math.round(n).toLocaleString("vi-VN")+" ₫";
+const num=id=>parseFloat($(id).value)||0;
+const h=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function save(){try{const d={lang};document.querySelectorAll("input,select").forEach(e=>d[e.id]=e.value);localStorage.setItem("sellerai_v1",JSON.stringify(d))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("sellerai_v1")||"{}");Object.keys(d).forEach(k=>{if(k==="lang")lang=d[k];else if($(k))$(k).value=d[k]})}catch(e){}}
+function applyLang(){document.documentElement.lang=lang;document.querySelectorAll("[data-i]").forEach(e=>{const v=T[lang][e.dataset.i];if(v)e.textContent=v});
+ $("lvi").classList.toggle("on",lang==="vi");$("lzh").classList.toggle("on",lang==="zh");calc();if($("outs").children.length)gen(true);if(!$("chkout").hidden)check()}
+function calc(){
+ const p=num("price"),c=num("cost"),s=num("ship"),k=num("pack"),a=num("ad"),fee=num("fee")/100,r=num("ret")/100,m=num("target")/100;
+ const feeV=p*fee,retV=r*s*2,profit=p-feeV-c-s-k-a-retV,margin=p?profit/p:0;
+ const fixed=c+s+k+a+retV,be=fixed/(1-fee||1);
+ const pm=1-fee-m,pMin=pm>0?fixed/pm:Infinity,disc=p&&isFinite(pMin)?Math.max(0,(p-pMin)/p):0;
+ const adMax=Math.max(0,p*pm-(c+s+k+retV));
+ const set=(id,v)=>$(id).textContent=v;
+ set("o_price",f(p));set("o_fee",f(feeV));set("o_cost",f(c));set("o_ship",f(s));set("o_pack",f(k));set("o_ad",f(a));set("o_ret",f(retV));
+ set("o_profit",f(profit));$("o_profit").className=profit>=0?"pos":"neg";
+ set("k_margin",(margin*100).toFixed(1)+"%");set("k_be",f(be));set("k_disc",(disc*100).toFixed(0)+"%");set("k_ad",f(adMax));
+ const v=$("verdict"),cls=margin<0?"bad":margin<m?"mid":"ok";v.className="badge b-"+(cls==="ok"?"ok":cls);v.textContent=T[lang][cls];
+ M={p,disc:Math.floor(disc*100/5)*5,margin,m};
+ const pr=$("promo");pr.textContent=M.disc>=5?T[lang].p_disc+" "+Math.min(M.disc,30)+"%":T[lang].p_gift;
+ save();
+}
+const HOOK={beauty:["Da bạn đang gặp vấn đề này đúng không?","Dùng thử 7 ngày, mình bất ngờ với kết quả này!","Đừng mua {n} khi chưa xem video này!"],
+fashion:["Mặc lên là được khen ngay, thật đấy!","Một item mix được 5 outfit, chị em xem nhé!","Đừng mua {n} khi chưa xem video này!"],
+home:["Căn bếp nhà bạn cần ngay món này!","Mẹo nhỏ giúp nhà gọn gàng gấp đôi!","Đừng mua {n} khi chưa xem video này!"]};
+const TAG={beauty:"#mypham #skincare #tiktokshop",fashion:"#thoitrang #outfit #tiktokshop",home:"#giadung #nhacua #tiktokshop"};
+function clean(t){let n=0;const o=t.replace(RE,m=>{n++;return MAP[m.toLowerCase()]||m});return[o,n]}
+function gen(keep){
+ if(!M)calc();if(keep!==true)hookN++;
+ const ind=$("ind").value,n=$("pname").value.trim()||"sản phẩm",aud=$("aud").value.trim()||"mọi nhà",ben=$("ben").value.trim()||"được nhiều khách yêu thích";
+ const hook=HOOK[ind][hookN%3].replace("{n}",n);
+ const d=Math.min(M.disc,30),pp=Math.ceil(M.p*(1-d/100)/1000)*1000;
+ const promo=d>=5?`Giảm ${d}%, giá chỉ còn ${pp.toLocaleString("vi-VN")}đ`:"Tặng kèm quà nhỏ cho 50 đơn đầu tiên";
+ const cap=`${hook}\n\n✨ ${n}: ${ben}\n👥 Dành cho ${aud}\n🔥 ${promo}\n👉 Bấm giỏ hàng chốt đơn ngay hôm nay!\n${TAG[ind]}`;
+ const live=`• Chào cả nhà! Ai đang cần ${n} thì ở lại với mình nhé.\n• Điểm nổi bật: ${ben}.\n• Sản phẩm phù hợp với ${aud}.\n• Ưu đãi riêng trong live: ${promo}.\n• Bấm vào giỏ hàng bên dưới, mình chốt đơn cho cả nhà ngay!`;
+ const vid=`[0–3s] ${hook}\n[3–9s] Cận cảnh ${n}, nói rõ: ${ben}.\n[9–13s] ${promo}.\n[13–15s] Bấm giỏ hàng bên dưới nhé!`;
+ const L=T[lang];let html='<p class="note" id="aist"></p>';
+ [[L.o1,cap],[L.o2,live],[L.o3,vid]].forEach((x,i)=>{const[t,c]=clean(x[1]);
+  html+=`<div class="card out"><h3><span>${x[0]}</span><button class="cp" data-c="${i}">${L.copy}</button></h3><pre id="c${i}">${h(t)}</pre>${c?`<p class="note">${L.fixed} ${c}</p>`:""}</div>`});
+ html+=`<button class="btn alt" id="regen">${L.regen}</button>`;
+ $("outs").innerHTML=html;$("regen").onclick=()=>gen();
+ document.querySelectorAll(".cp").forEach(b=>b.onclick=()=>copy($("c"+b.dataset.c).textContent,b));save();
+ if(keep!==true)aiFill({name:n,industry:ind,audience:aud,benefit:ben,price:M.p,disc:d});
+}
+const FREE=3;
+function quota(){const day=new Date().toISOString().slice(0,10);try{const q=JSON.parse(localStorage.getItem("sellerai_q")||"{}");return q.d===day?q:{d:day,n:0}}catch(e){return{d:day,n:0}}}
+async function aiFill(p){
+ const st=$("aist"),L=T[lang],q=quota();
+ if(q.n>=FREE){st.textContent=L.ai_lim;return}
+ st.textContent=L.ai_on;
+ try{
+  const r=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)});
+  if(!r.ok)throw 0;const j=await r.json();
+  ["caption","live","video"].forEach((k,i)=>{if(typeof j[k]==="string"&&j[k]){$("c"+i).textContent=clean(j[k])[0]}});
+  q.n++;try{localStorage.setItem("sellerai_q",JSON.stringify(q))}catch(e){}
+  st.textContent=L.ai_ok;
+ }catch(e){st.textContent=L.ai_off}
+}
+function copy(t,b){const done=()=>{const o=b.textContent;b.textContent=T[lang].copied;setTimeout(()=>b.textContent=T[lang].copy,1200)};
+ try{navigator.clipboard.writeText(t).then(done,fb)}catch(e){fb()}
+ function fb(){try{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();done()}catch(e){}}}
+function check(){
+ const t=$("chk").value,o=$("chkout"),L=T[lang];o.hidden=false;
+ const hits=t.match(RE)||[];
+ if(!hits.length){o.innerHTML=`<span class="pos">✔</span> ${L.none}`;return}
+ const hl=h(t).replace(new RegExp(RE.source,"gi"),m=>`<mark>${m}</mark>`);
+ const seen=[...new Set(hits.map(x=>x.toLowerCase()))];
+ o.innerHTML=`<p style="margin:0 0 8px"><b class="neg">${hits.length} ${L.found}</b></p><div style="margin-bottom:10px;white-space:pre-wrap">${hl}</div>`+seen.map(x=>`<div class="hit"><s>${h(x)}</s><b>${h(MAP[x])}</b></div>`).join("");
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button,section").forEach(e=>e.classList.remove("on"));b.classList.add("on");$(b.dataset.t).classList.add("on");if(b.dataset.t==="t2"&&!$("outs").children.length)gen(true)});
+document.querySelectorAll("input,select").forEach(e=>e.addEventListener("input",calc));
+$("gen").onclick=()=>gen();$("chkb").onclick=check;
+$("fixb").onclick=()=>{$("chk").value=clean($("chk").value)[0];check()};
+$("lvi").onclick=()=>{lang="vi";applyLang();save()};$("lzh").onclick=()=>{lang="zh";applyLang();save()};
+load();applyLang();
+</script>
+</body>
+</html>
